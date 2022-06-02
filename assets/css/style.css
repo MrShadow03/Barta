@@ -1,0 +1,9 @@
+.signup:active {
+	background-color: #302ab1 !important;
+}
+#error_div {
+	display: none !important;
+}
+#error_text {
+	padding: 20px 0;
+}
