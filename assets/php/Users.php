@@ -2,7 +2,7 @@
 
 session_start();
 include_once './config.php';
-$sql = mysqli_query($conn, "SELECT * FROM users");
+$sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id != '{$_SESSION['unique_id']}'");
 $output = "";
 
 if (mysqli_num_rows($sql) == 1) {
@@ -20,12 +20,6 @@ if (mysqli_num_rows($sql) == 1) {
                                         ' . $row['name'] . '
                                     </h6>
                                     <div class="chat-time">Just now</div>
-                                </div>
-                                <div class="contacts-texts">
-                                    <p class="text-truncate">
-                                        I’m sorry, I didn’t catch that. Could you please
-                                        repeat?
-                                    </p>
                                 </div>
                             </div>
                         </a>

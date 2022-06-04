@@ -25,6 +25,8 @@
 </head>
 
 <body class="authentication-page">
+
+
 	<!-- Main Layout Start -->
 	<div class="main-layout card-bg-1">
 		<div class="container d-flex flex-column">

@@ -23,4 +23,5 @@
     <link rel="stylesheet" href="./assets/css/inter/inter.css" />
     <link rel="stylesheet" href="./assets/css/app.min.css" />
     <link rel="stylesheet" href="./assets/css/css/all.min.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
 </head>

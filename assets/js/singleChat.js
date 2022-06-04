@@ -3,6 +3,11 @@ const msg_form = document.querySelector("#chat_form");
 const msg_input = document.querySelector("#messageInput");
 const msg_btn = document.querySelector("#msg_btn");
 
+msg_input.addEventListener("keypress", function (event) {
+	if (event.keyCode == 13) {
+		msg_btn.click();
+	}
+});
 msg_form.onsubmit = (e) => {
 	e.preventDefault();
 };

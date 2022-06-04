@@ -1,4 +1,4 @@
-.signup:active {
+/* .signup:active {
 	background-color: #302ab1 !important;
 }
 #error_div {
@@ -6,4 +6,15 @@
 }
 #error_text {
 	padding: 20px 0;
+} */
+.logo_img {
+	height: 40px;
+	width: 40px;
+	object-fit: cover;
+	border-radius: 50%;
+}
+.logo_a {
+	border-radius: 50% !important;
+	overflow: hidden;
+	padding: 2px;
 }

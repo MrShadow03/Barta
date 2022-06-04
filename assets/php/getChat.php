@@ -1,38 +1,39 @@
 <?php
 session_start();
 if (isset($_SESSION['unique_id'])) {
-    include_once './config.php';
-    //user content
-    $user_id = $_SESSION['unique_id'];
-    $user_info_sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = '{$user_id}'");
-    $user_row = mysqli_fetch_assoc($user_info_sql);
+	include_once './config.php';
+	//Get time zone information
 
-    $msg = mysqli_real_escape_string($conn, $_POST['msg']);
-    $outgoing = mysqli_real_escape_string($conn, $_POST['outgoing_id']);
-    $incoming = mysqli_real_escape_string($conn, $_POST['incoming_id']);
+	//user content
+	$user_id = $_SESSION['unique_id'];
+	$user_info_sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = '{$user_id}'");
+	$user_row = mysqli_fetch_assoc($user_info_sql);
 
-    $reciever_info_sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = '{$incoming}'");
-    $reciever_row = mysqli_fetch_assoc($reciever_info_sql);
+	$msg = mysqli_real_escape_string($conn, $_POST['msg']);
+	$outgoing = mysqli_real_escape_string($conn, $_POST['outgoing_id']);
+	$incoming = mysqli_real_escape_string($conn, $_POST['incoming_id']);
 
-    $output = '';
-    $sql = "SELECT * FROM messages WHERE (outgoing_msg_id={$outgoing} AND incoming_msg_id={$incoming}) OR (outgoing_msg_id={$incoming} AND incoming_msg_id={$outgoing}) ORDER BY msg_id DESC";
-    $query = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($query) > 0) {
-        while ($row = mysqli_fetch_assoc($query)) {
-            if ($row['outgoing_msg_id'] == $outgoing) {
-                $output .= '<div class="message self">
+	$reciever_info_sql = mysqli_query($conn, "SELECT * FROM users WHERE unique_id = '{$incoming}'");
+	$reciever_row = mysqli_fetch_assoc($reciever_info_sql);
+
+	$output = '';
+	$sql = "SELECT * FROM messages WHERE (outgoing_msg_id={$outgoing} AND incoming_msg_id={$incoming}) OR (outgoing_msg_id={$incoming} AND incoming_msg_id={$outgoing}) ORDER BY msg_id ASC";
+	$query = mysqli_query($conn, $sql);
+	if (mysqli_num_rows($query) > 0) {
+		while ($row = mysqli_fetch_assoc($query)) {
+			if ($row['outgoing_msg_id'] == $outgoing) {
+				$time_ex = explode(" ", $row['time']);
+				$time = end($time_ex);
+				$output .= '<div class="message self">
 								<div class="message-wrapper">
 									<div class="message-content">
 										<span>' . $row['msg'] . '</span>
 									</div>
 								</div>
 								<div class="message-options">
-									<div class="avatar avatar-sm">
-										<img alt="" src="./assets/storage/' . $user_row['img'] . '" />
-									</div>
+									
 
-									<span class="message-date">9:12am</span>
-									<span class="message-status">Edited</span>
+									<span class="message-date">' . $time . '</span>
 
 									<div class="dropdown">
 										<a class="text-muted" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -110,8 +111,10 @@ if (isset($_SESSION['unique_id'])) {
 									</div>
 								</div>
 							</div>';
-            } else {
-                $output .= '<div class="message">
+			} else {
+				$time_ex = explode(" ", $row['time']);
+				$time = end($time_ex);
+				$output .= '<div class="message">
 								<div class="message-wrapper">
 									<div class="message-content">
 										<span>' . $row['msg'] . '</span>
@@ -121,7 +124,7 @@ if (isset($_SESSION['unique_id'])) {
 									<div class="avatar avatar-sm">
 										<img alt="" src="./assets/storage/' . $reciever_row['img'] . '" />
 									</div>
-									<span class="message-date">9:12am</span>
+									<span class="message-date">' . $time . '</span>
 									<div class="dropdown">
 										<a class="text-muted" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<!-- Default :: Inline SVG -->
@@ -188,10 +191,10 @@ if (isset($_SESSION['unique_id'])) {
 									</div>
 								</div>
 							</div>';
-            }
-        }
-        echo $output;
-    }
+			}
+		}
+		echo $output;
+	}
 } else {
-    header('location:./signin.php');
+	header('location:./signin.php');
 }
